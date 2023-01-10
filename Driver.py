@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO  # sudo apt-get install python-rpi.gpio
+#import RPi.GPIO as GPIO  # sudo apt-get install python-rpi.gpio
 import time
 
 
@@ -35,17 +35,16 @@ class Driver:
     def neutral(self,time_elapse=5):
         self.rpwm_controller.ChangeDutyCycle(0)  # Stop turning right
         self.lpwm_controller.ChangeDutyCycle(0)  # stop turning left
-        time.sleep(time_elapse)
 
     def right(self,power=10,time_elapse=5):
         self.lpwm_controller.ChangeDutyCycle(0)  # stop turning left
         self.rpwm_controller.ChangeDutyCycle(power)  # start turning right
-        time.sleep(time_elapse)
+        
 
     def left(self,power=10,time_elapse=5):
         self.rpwm_controller.ChangeDutyCycle(0)  # Stop turning right
         self.lpwm_controller.ChangeDutyCycle(power)  # start turning left
-        time.sleep(time_elapse)
+        
 
     def cleanup(self):
         self.rpwm_controller.stop()
