@@ -1,13 +1,18 @@
 from tkinter import *
 from Driver import Driver
+from sampleDriver import Sim_Driver
 
 root = Tk()  
 root.geometry("400x130") 
 
 #default direction
 direction = "left"
+is_simulation = True
 
-da_driver = Driver()
+da_driver = Sim_Driver()
+
+if not is_simulation:
+    da_driver = Driver()
 
 def move_motor(power):
     if direction == "left":
