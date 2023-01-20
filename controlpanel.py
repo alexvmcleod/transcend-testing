@@ -11,9 +11,9 @@ da_driver = Driver()
 
 def move_motor(power):
     if direction == "left":
-        da_driver.left(power=power)
+        da_driver.left(power=int(power))
     else:
-        da_driver.right(power=power)
+        da_driver.right(power=int(power))
 
 def change_direction(dire):
     global direction
