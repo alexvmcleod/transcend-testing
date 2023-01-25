@@ -1,6 +1,7 @@
 from tkinter import *
 from Driver import Driver
 from sampleDriver import Sim_Driver
+from halldetector import HallSensor
 
 root = Tk()  
 root.geometry("400x130") 
@@ -10,7 +11,7 @@ direction = "left"
 is_simulation = True
 
 da_driver = Sim_Driver()
-
+da_hall = HallSensor()
 if not is_simulation:
     da_driver = Driver()
 
@@ -19,6 +20,8 @@ def move_motor(power):
         da_driver.left(power=int(power))
     else:
         da_driver.right(power=int(power))
+
+    da_hall.hallDetection()
 
 def change_direction(dire):
     global direction
