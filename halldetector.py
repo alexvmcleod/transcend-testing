@@ -51,7 +51,7 @@ class HallSensor:
 
         if hall_val == 0:
             if is_tripped == False:
-                trip_count += 1
+                self.trip_count += 1
                 print(self.trip_count)
 
                 #print(list_o_time)
