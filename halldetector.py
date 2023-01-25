@@ -5,10 +5,10 @@ from statistics import mean
 
 
 class HallSensor:
-    def __init__(self):
+    def __init__(self,pin):
         GPIO.setmode(GPIO.BCM)
 
-        self.hall = 17
+        self.hall = pin
         GPIO.setup(self.hall, GPIO.IN)
 
         self.start_time = time.time_ns()
@@ -59,7 +59,9 @@ class HallSensor:
                 avg = self.findDifferenceMA()
                 spr = self.convertToSPR(avg,4)
                 rpm = self.convertSPRtoRPM(spr)
-                print(rpm)
+                print(f"GPIO Pin: {self.hall}, RPM: {rpm}")
+                print("#############################")
+
 
 
                 is_tripped = True

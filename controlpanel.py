@@ -11,7 +11,9 @@ direction = "left"
 is_simulation = True
 
 da_driver = Sim_Driver()
-da_hall = HallSensor()
+hall_drive_pulley = HallSensor(17)
+hall_driven_pulley = HallSensor(27)
+
 if not is_simulation:
     da_driver = Driver()
 
@@ -21,7 +23,8 @@ def move_motor(power):
     else:
         da_driver.right(power=int(power))
 
-    da_hall.hallDetection()
+    hall_drive_pulley.hallDetection()
+    hall_driven_pulley.hallDetection()
 
 def change_direction(dire):
     global direction
