@@ -2,13 +2,13 @@ from tkinter import *
 from Driver import Driver
 from sampleDriver import Sim_Driver
 from halldetector import HallSensor
-
+import time
 root = Tk()  
 root.geometry("400x130") 
 
 #default direction
 direction = "left"
-is_simulation = True
+is_simulation = False
 
 da_driver = Sim_Driver()
 hall_drive_pulley = HallSensor(17)
@@ -23,8 +23,7 @@ def move_motor(power):
     else:
         da_driver.right(power=int(power))
 
-    hall_drive_pulley.hallDetection()
-    hall_driven_pulley.hallDetection()
+    
 
 def change_direction(dire):
     global direction
@@ -62,6 +61,14 @@ Button(root,
 
 
 # run Tk event loop
-root.mainloop()
+while True:
+    root.update_idletasks()
+    root.update()
+
+    
+    hall_drive_pulley.hallDetection()
+    hall_driven_pulley.hallDetection()
+    time.sleep(0.01)
+
 print("Finished!")
 da_driver.cleanup()

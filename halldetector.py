@@ -50,7 +50,7 @@ class HallSensor:
         hall_val  = GPIO.input(self.hall)
 
         if hall_val == 0:
-            if is_tripped == False:
+            if self.is_tripped == False:
                 self.trip_count += 1
                 print(self.trip_count)
 
@@ -64,12 +64,12 @@ class HallSensor:
 
 
 
-                is_tripped = True
+                self.is_tripped = True
                 self.list_o_time.insert(0,time_elapsed)
 
         if hall_val == 1:
-            if is_tripped == True:
-                is_tripped = False
+            if self.is_tripped == True:
+                self.is_tripped = False
 
     def generate_RPM(self):
         avg = self.findDifferenceMA()
