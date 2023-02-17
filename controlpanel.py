@@ -67,7 +67,8 @@ while True:
     root.update_idletasks()
     root.update()
 
-    print(f"HERE IS RAW VAL THING:   {cur_sensor.raw_val()}")
+    #print(f"HERE IS RAW VAL THING:   {cur_sensor.raw_val()}")
+    cur_sensor.voltage_sense()
     hall_drive_pulley.hallDetection()
     hall_driven_pulley.hallDetection()
     time.sleep(0.01)
