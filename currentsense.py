@@ -39,7 +39,7 @@ class CurrentSensor:
 
 
     def duty_cycleV(self,duty_cycle):
-        return 24*duty_cycle/100
+        return 24*int(duty_cycle)/100
 
     def calcwattage(self,a,v=0,duty_cycle=-1):
         #the duty cycle should be a whole integer
