@@ -2,8 +2,6 @@ import RPi.GPIO as GPIO  # sudo apt-get install python-rpi.gpio
 import time
 from statistics import mean
 
-
-
 class HallSensor:
     def __init__(self,pin):
         GPIO.setmode(GPIO.BCM)
@@ -23,16 +21,13 @@ class HallSensor:
         self.target_rpm = 60
         self.rpm_error_bound = 30
 
-
-
-
+        self.rpm = 0
 
     def convertSPRtoRPM(self,spr):
         if spr == 0:
             return 0
         else:
             return 60 / spr
-
 
     def convertToSPR(self,n,count):
         #print(n)
@@ -45,7 +40,6 @@ class HallSensor:
             return 0
 
     def hallDetection(self):
-
         time_elapsed = time.time_ns() - self.start_time
         hall_val  = GPIO.input(self.hall)
 
@@ -59,10 +53,10 @@ class HallSensor:
                 avg = self.findDifferenceMA()
                 spr = self.convertToSPR(avg,4)
                 rpm = self.convertSPRtoRPM(spr)
-                print(f"GPIO Pin: {self.hall}, RPM: {rpm}")
-                print("#############################")
 
-
+                self.rpm = rpm
+                #print(f"GPIO Pin: {self.hall}, RPM: {rpm}")
+                #print("#############################")
 
                 self.is_tripped = True
                 self.list_o_time.insert(0,time_elapsed)

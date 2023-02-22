@@ -27,10 +27,27 @@ class CurrentSensor:
         
         if self.counterval % self.counterinterval == 0:
             intervalaverage = sum(self.voltagevallist[-self.counterinterval:])/self.counterinterval
-            print(f"DA MOVING AVERAGE IS:  {intervalaverage}")
+            #print(f"DA MOVING AVERAGE IS:  {intervalaverage}")
+
+    def voltage_sense_static(self):
+        if len(self.voltagevallist) > self.counterinterval:
+            return sum(self.voltagevallist[-self.counterinterval:])/self.counterinterval
+        return 0
 
     def convertVtoA(self, v):
         return v * self.VRATIO * self.CRATIO
+
+
+    def duty_cycleV(self,duty_cycle):
+        return 24*duty_cycle/100
+
+    def calcwattage(self,a,v=0,duty_cycle=-1):
+        #the duty cycle should be a whole integer
+        #setting duty cycle to something will override v
+        if duty_cycle != -1:
+            v = self.duty_cycleV(self,duty_cycle)
+        return v * a
+        
 
 if __name__ == "__main__":
     thing = CurrentSensor()

@@ -31,7 +31,6 @@ class Driver:
         self.lpwm_controller.start(0)
         self.rpwm_controller.start(0)
 
-
     def neutral(self,time_elapse=5):
         self.rpwm_controller.ChangeDutyCycle(0)  # Stop turning right
         self.lpwm_controller.ChangeDutyCycle(0)  # stop turning left
@@ -39,13 +38,11 @@ class Driver:
     def right(self,power=10,time_elapse=5):
         self.lpwm_controller.ChangeDutyCycle(0)  # stop turning left
         self.rpwm_controller.ChangeDutyCycle(power)  # start turning right
-        
 
     def left(self,power=10,time_elapse=5):
         self.rpwm_controller.ChangeDutyCycle(0)  # Stop turning right
         self.lpwm_controller.ChangeDutyCycle(power)  # start turning left
         
-
     def cleanup(self):
         self.rpwm_controller.stop()
         self.lpwm_controller.stop()

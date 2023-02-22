@@ -19,13 +19,21 @@ cur_sensor = CurrentSensor()
 if not is_simulation:
     da_driver = Driver()
 
+
+duty_rating = 0
+# hall0 = 0
+# hall1 = 1
+# cursense = 0
+# volsense = 0
+# watsense = 0
+
 def move_motor(power):
+    global duty_rating
+    duty_rating = power
     if direction == "left":
         da_driver.left(power=int(power))
     else:
         da_driver.right(power=int(power))
-
-    
 
 def change_direction(dire):
     global direction
@@ -33,6 +41,10 @@ def change_direction(dire):
 
 def stop_motor():
     da_driver.neutral()
+
+def update_sensors():
+    pass
+    
 
 
 scale1 = Scale(root,
@@ -61,16 +73,36 @@ Button(root,
                pady = 40, 
                command=stop_motor).pack(anchor=E)
 
-
+counter = 0
 # run Tk event loop
 while True:
+    #the stuff up here should run every cycle
     root.update_idletasks()
     root.update()
-
-    #print(f"HERE IS RAW VAL THING:   {cur_sensor.raw_val()}")
     cur_sensor.voltage_sense()
     hall_drive_pulley.hallDetection()
     hall_driven_pulley.hallDetection()
+
+    #print(f"HERE IS RAW VAL THING:   {cur_sensor.raw_val()}")
+    
+    volts_IS = cur_sensor.voltage_sense_static()
+    amps = cur_sensor.convertVtoA(volts_IS)
+    volts = cur_sensor.duty_cycleV(duty_rating)
+    watts = cur_sensor.calcwattage(a=amps,v=volts)
+
+    hall0rpm = hall_drive_pulley.rpm
+    hall1rpm = hall_driven_pulley.rpm
+    
+    if counter % 200 == 0:
+        print("############     METRICS     ############\n")
+        print(f"VOLTS FROM CHIP: {volts_IS}V\n")
+        print(f"VOLTS: {volts}V")
+        print(f"AMPS: {amps}A")
+        print(f"WATTS: {watts}W\n")
+        print(f"HALL SENSOR 0: {hall0rpm}RPM")
+        print(f"HALL SENSOR 1: {hall1rpm}RPM\n")
+    
+    counter += 1
     time.sleep(0.01)
 
 print("Finished!")
