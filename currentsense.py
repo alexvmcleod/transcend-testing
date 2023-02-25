@@ -27,7 +27,7 @@ class CurrentSensor:
         
         if self.counterval % self.counterinterval == 0:
             intervalaverage = sum(self.voltagevallist[-self.counterinterval:])/self.counterinterval
-            #print(f"DA MOVING AVERAGE IS:  {intervalaverage}")
+            print(f"DA MOVING AVERAGE IS:  {intervalaverage}")
 
     def voltage_sense_static(self):
         if len(self.voltagevallist) > self.counterinterval:
