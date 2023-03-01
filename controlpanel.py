@@ -4,6 +4,7 @@ from sampleDriver import Sim_Driver
 from halldetector import HallSensor
 from currentsense import CurrentSensor
 import time
+import csv
 root = Tk()  
 root.geometry("400x130") 
 
@@ -93,17 +94,27 @@ while True:
     hall0rpm = hall_drive_pulley.rpm
     hall1rpm = hall_driven_pulley.rpm
     
-    if counter % 200 == 0:
-        print("############     METRICS     ############\n")
-        print(f"VOLTS FROM CHIP: {volts_IS}V\n")
-        print(f"VOLTS: {volts}V")
-        print(f"AMPS: {amps}A")
-        print(f"WATTS: {watts}W\n")
-        print(f"HALL SENSOR 0: {hall0rpm}RPM")
-        print(f"HALL SENSOR 1: {hall1rpm}RPM\n")
+    # if counter % 200 == 0:
+        # print("############     METRICS     ############\n")
+        # print(f"VOLTS FROM CHIP: {volts_IS}V\n")
+        # print(f"VOLTS: {volts}V")
+        # print(f"AMPS: {amps}A")
+        # print(f"WATTS: {watts}W\n")
+        # print(f"HALL SENSOR 0: {hall0rpm}RPM")
+        # print(f"HALL SENSOR 1: {hall1rpm}RPM\n")
     
-    counter += 1
+    # counter += 1
+
+
+    with open("/home/transcend/data.csv","a",newline="") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        data = [volts_IS,amps,volts,watts,hall0rpm,hall1rpm]
+        csvwriter.writerow(data) 
+
+
     time.sleep(0.01)
+
+    
 
 print("Finished!")
 da_driver.cleanup()
