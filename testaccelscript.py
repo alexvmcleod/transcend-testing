@@ -45,4 +45,4 @@ def testaccelthing(start=0,end=10,duration=3):
 
         x = input(f"Level: {level}. Press enter to continue.")
 
-testaccelthing(0,10,3)
+testaccelthing(0,30,3)
