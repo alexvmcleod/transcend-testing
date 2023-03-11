@@ -1,0 +1,21 @@
+import statistics
+
+print("hello")
+
+with open('testscripts//data.txt', 'r') as f:
+    lines = f.readlines()
+
+data = []
+for line in lines:
+    value = float(line.strip().split(',')[0])
+    data.append(value)
+
+differences = []
+for i in range(len(data)-1):
+    diff = data[i+1] - data[i]
+    differences.append(diff)
+
+print(differences)
+
+print("Average " + str(statistics.mean(differences)))
+print("std " + str(statistics.stdev(differences)))

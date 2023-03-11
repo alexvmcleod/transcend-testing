@@ -38,6 +38,9 @@ class CurrentSensor:
         return v * self.VRATIO * self.CRATIO
 
 
+    def getdaA(self):
+        return self.raw_val() * self.VRATIO * self.CRATIO
+
     def duty_cycleV(self,duty_cycle):
         return 24*int(duty_cycle)/100
 

@@ -13,6 +13,8 @@ class HallSensor:
         GPIO.add_event_detect(self.sensor_pin, GPIO.FALLING, callback= self.update_rpm)
 
     def update_rpm(self,channel):
-        self.rpm = 60/ ((time.time() - self.start_time) *4)
+        rpm_test = 60/ ((time.time() - self.start_time) *4)
+        if rpm_test < 5000:
+            self.rpm = rpm_test
         self.start_time = time.time()
         
