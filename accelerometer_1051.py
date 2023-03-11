@@ -6,7 +6,6 @@ from currentsense import CurrentSensor
 from rpm_sensor import calculate_RPM
 import time
 import csv
-import RPi.GPIO as GPIO
 
 root = Tk()  
 root.geometry("400x130") 
@@ -16,8 +15,9 @@ direction = "left"
 is_simulation = False
 
 da_driver = Sim_Driver()
-hall_drive_pulley = HallSensor(17)
-hall_driven_pulley = HallSensor(27)
+hall_mass = HallSensor(22)
+sensor_pin= 22
+start_time = time.time()
 cur_sensor = CurrentSensor()
 
 if not is_simulation:
@@ -25,6 +25,7 @@ if not is_simulation:
 
 
 duty_rating = 0
+
 
 def move_motor(power):
     global duty_rating
@@ -79,40 +80,23 @@ while True:
     root.update_idletasks()
     root.update()
     cur_sensor.voltage_sense()
-    hall_drive_pulley.hallDetection()
-    hall_driven_pulley.hallDetection()
-
-    #print(f"HERE IS RAW VAL THING:   {cur_sensor.raw_val()}")
     
+
     volts_IS = cur_sensor.voltage_sense_static()
     amps = cur_sensor.convertVtoA(volts_IS)
     volts = cur_sensor.duty_cycleV(duty_rating)
     watts = cur_sensor.calcwattage(a=amps,v=volts)
 
-    hall0rpm = hall_drive_pulley.rpm
-    hall1rpm = hall_driven_pulley.rpm
-    
-    rpm=calculate_RPM(22, time.time())
-    print(rpm)
-    # if counter % 200 == 0:
-        # print("############     METRICS     ############\n")
-        # print(f"VOLTS FROM CHIP: {volts_IS}V\n")
-        # print(f"VOLTS: {volts}V")
-        # print(f"AMPS: {amps}A")
-        # print(f"WATTS: {watts}W\n")
-        # print(f"HALL SENSOR 0: {hall0rpm}RPM")
-        # print(f"HALL SENSOR 1: {hall1rpm}RPM\n")
-    
-    # counter += 1
+    rpm = calculate_RPM(sensor_pin,start_time) #calculating the RPM with other module
 
 
-    with open("/home/transcend/data.csv","a",newline="") as csvfile:
+    with open("/home/transcend/Efficiencycurve.csv","a",newline="") as csvfile:  #writing to csv file
         csvwriter = csv.writer(csvfile)
-        data = [volts_IS,amps,volts,watts,hall0rpm,hall1rpm]
+        data = [volts_IS,amps,volts,watts,rpm]
         csvwriter.writerow(data) 
 
 
-    time.sleep(0.01)
+    time.sleep(0.0001)
 
     
 
