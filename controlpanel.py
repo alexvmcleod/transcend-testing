@@ -1,9 +1,8 @@
 from tkinter import *
 from Driver import Driver
 from sampleDriver import Sim_Driver
-from halldetector import HallSensor
 from currentsense import CurrentSensor
-from rpm_sensor import calculate_RPM
+from halldetector import HallSensor
 import time
 import csv
 import RPi.GPIO as GPIO
@@ -18,6 +17,8 @@ is_simulation = False
 da_driver = Sim_Driver()
 hall_drive_pulley = HallSensor(17)
 hall_driven_pulley = HallSensor(27)
+
+hallforthing = HallSensor(22)
 cur_sensor = CurrentSensor()
 
 if not is_simulation:
@@ -79,8 +80,8 @@ while True:
     root.update_idletasks()
     root.update()
     cur_sensor.voltage_sense()
-    hall_drive_pulley.hallDetection()
-    hall_driven_pulley.hallDetection()
+    #hall_drive_pulley.hallDetection()
+    #hall_driven_pulley.hallDetection()
 
     #print(f"HERE IS RAW VAL THING:   {cur_sensor.raw_val()}")
     
@@ -92,7 +93,7 @@ while True:
     hall0rpm = hall_drive_pulley.rpm
     hall1rpm = hall_driven_pulley.rpm
     
-    rpm=calculate_RPM(22, time.time())
+    rpm=hallforthing.rpm
     print(rpm)
     # if counter % 200 == 0:
         # print("############     METRICS     ############\n")
